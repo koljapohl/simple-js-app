@@ -1,31 +1,45 @@
-let pokemonList = [];
+let pokemonRepository = (function () {
+    let pokemonList = [];
 
-pokemonList = [
-    {
-        name: 'Charmander',
-        height: 6,
-        types: ['fire']
-    },
-    {
-        name: 'Squirtle',
-        height: 5,
-        types: ['water']
-    },
-    {
-        name: 'Togepi',
-        height: 3,
-        types: ['fairy']
-    },
-    {
-        name: 'Bulbasaur',
-        height: 7,
-        types: ['grass', 'poison']
+    pokemonList = [
+        {
+            name: 'Charmander',
+            height: 6,
+            types: ['fire']
+        },
+        {
+            name: 'Squirtle',
+            height: 5,
+            types: ['water']
+        },
+        {
+            name: 'Togepi',
+            height: 3,
+            types: ['fairy']
+        },
+        {
+            name: 'Bulbasaur',
+            height: 7,
+            types: ['grass', 'poison']
+        }
+    ];
+
+    function getAll() {
+        return pokemonList;
     }
-];
+    function add(item) {
+        pokemonList.push(item)
+    }
+    return {
+        getAll: getAll,
+        add: add
+    };
+})();
+
 
 let threshHeight = 7;
 let bigText = ' - Wow, that\'s big!';
-pokemonList.forEach(function(pokemon){
+pokemonRepository.getAll().forEach(function(pokemon){
     /*looking at one array element at a time one after another
     declare a string variable 'text' and assign the pokemon's name as well as its height to it.*/
     let text = '<p class="pokemon">'+pokemon.name
