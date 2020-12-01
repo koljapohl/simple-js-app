@@ -25,17 +25,17 @@ pokemonList = [
 
 let threshHeight = 7;
 let bigText = ' - Wow, that\'s big!';
-for(let i =0; i<pokemonList.length; i++){
+pokemonList.forEach(function(pokemon){
     /*looking at one array element at a time one after another
     declare a string variable 'text' and assign the pokemon's name as well as its height to it.*/
-    let text = '<p class="pokemon">'+pokemonList[i].name
-    + ' (height: ' + pokemonList[i].height+ ')';
+    let text = '<p class="pokemon">'+pokemon.name
+    + ' (height: ' + pokemon.height+ ')';
     /*check if the current pokemon is bigger than the predefined threshold height.
     If so, add a specific string to the text variable.*/
-    if(pokemonList[i].height>=threshHeight){
+    if(pokemon.height>=threshHeight){
         text = text + bigText + '</p>';
     } else{
         text = text + '</p>';
     }
     document.write(text);
-}
+});
