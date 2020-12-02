@@ -30,9 +30,23 @@ let pokemonRepository = (function () {
     function add(item) {
         pokemonList.push(item)
     }
+    function addv(item) {
+        if(typeof(item) === typeof(pokemonList[0])) {
+            document.write('Item: ' + Object.keys(item) + '<br>');
+            document.write('Repo: ' + Object.keys(pokemonList[0]) + '<br>');
+            if(Object.keys(item).concat() === Object.keys(pokemonList[0]).concat()) {
+                pokemonList.push(item)
+            } else {
+                window.alert('The given keys of the object don\'t match.');
+            }
+        } else {
+            window.alert('The given parameter is not an object.');
+        }
+    }
     return {
         getAll: getAll,
-        add: add
+        add: add,
+        addv: addv
     };
 })();
 
@@ -53,3 +67,5 @@ pokemonRepository.getAll().forEach(function(pokemon){
     }
     document.write(text);
 });
+let testObject = {name: 'poki', height: 5, types: ['air', 'earth']};
+pokemonRepository.addv(testObject);
