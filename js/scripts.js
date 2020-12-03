@@ -24,6 +24,20 @@ let pokemonRepository = (function () {
         }
     ];
 
+    function arraysEqual(a, b) {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if(a.length !== b.length) return false;
+
+        let c = sort(a);
+        let d = sort(b);
+
+        for(let i=0; i < c.length; i++) {
+            if(c[i] !== d[i]) return false;
+        }
+        return true;
+    }
+
     function getAll() {
         return pokemonList;
     }
@@ -32,9 +46,7 @@ let pokemonRepository = (function () {
     }
     function addv(item) {
         if(typeof(item) === typeof(pokemonList[0])) {
-            document.write('Item: ' + Object.keys(item) + '<br>');
-            document.write('Repo: ' + Object.keys(pokemonList[0]) + '<br>');
-            if(Object.keys(item).concat() === Object.keys(pokemonList[0]).concat()) {
+            if(arraysEqual(Object.keys(item)), Object.keys(pokemonList[0])) {
                 pokemonList.push(item)
             } else {
                 window.alert('The given keys of the object don\'t match.');
@@ -46,10 +58,13 @@ let pokemonRepository = (function () {
     return {
         getAll: getAll,
         add: add,
-        addv: addv
+        addv: addv,
+        arraysEqual: arraysEqual
     };
 })();
 
+let testObject = {name: 'poki', height: 8, types: ['air', 'earth']};
+pokemonRepository.addv(testObject);
 
 let threshHeight = 7;
 let bigText = ' - Wow, that\'s big!';
@@ -67,5 +82,3 @@ pokemonRepository.getAll().forEach(function(pokemon){
     }
     document.write(text);
 });
-let testObject = {name: 'poki', height: 5, types: ['air', 'earth']};
-pokemonRepository.addv(testObject);
