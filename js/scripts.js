@@ -24,6 +24,27 @@ let pokemonRepository = (function () {
         }
     ];
 
+    function addListItem(pokemon) {
+        let list = document.querySelector('.pokemon-list');
+        let listItem = document.createElement('li');
+        let button = document.createElement('button');
+        button.innerText = pokemon.name;
+        button.classList.add('pokebutton','list--item');
+        listItem.appendChild(button);
+        list.appendChild(listItem);
+        //calls function for applying event listener to button
+        addListener(button, pokemon);
+    }
+    //adds a listener to the button that lastly was created by 'addListItem' that triggers the showDetails-function
+    function addListener(button, pokemon) {
+        button.addEventListener('click', function (event) {
+            showDetails(pokemon);
+        });
+    }
+    function showDetails(pokemon) {
+        console.log(pokemon.name);
+    }
+
     function arraysEqual(a, b) {
         if (a === b) return true;
         if (a == null || b == null) return false;
@@ -59,26 +80,15 @@ let pokemonRepository = (function () {
         getAll: getAll,
         add: add,
         addv: addv,
-        arraysEqual: arraysEqual
+        addListItem: addListItem
     };
 })();
 
-let testObject = {name: 'poki', height: 8, types: ['air', 'earth']};
-pokemonRepository.addv(testObject);
+// let testObject = {name: 'poki', height: 8, types: ['air', 'earth']};
+// pokemonRepository.addv(testObject);
 
 let threshHeight = 7;
 let bigText = ' - Wow, that\'s big!';
 pokemonRepository.getAll().forEach(function(pokemon){
-    /*looking at one array element at a time one after another
-    declare a string variable 'text' and assign the pokemon's name as well as its height to it.*/
-    let text = '<p class="pokemon">'+pokemon.name
-    + ' (height: ' + pokemon.height+ ')';
-    /*check if the current pokemon is bigger than the predefined threshold height.
-    If so, add a specific string to the text variable.*/
-    if(pokemon.height>=threshHeight){
-        text = text + bigText + '</p>';
-    } else{
-        text = text + '</p>';
-    }
-    document.write(text);
+    pokemonRepository.addListItem(pokemon);
 });
