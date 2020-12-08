@@ -28,11 +28,11 @@ li{
     width: 100%;
     text-align: left;
 }
-p.header{
+li.header{
     font-size: 1.17em;
     font-weight: 700;
 }
-.pokemon-list > p{
+.pokemon-list .header{
     margin: 5px 0;
 }
 .pokebutton{
@@ -56,4 +56,20 @@ p.header{
     .container{
         grid-template-columns: 1fr 2fr;
     }
+}
+
+
+/*form validation UI pattern styling*/
+.input-wrapper {
+  margin-bottom: 10px;
+}
+
+label {
+  display: inline-block;
+  min-width: 75px;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.8em;
 }

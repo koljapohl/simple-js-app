@@ -11,9 +11,24 @@
 
         <div class="container">
             <ul class="pokemon-list">
-                <p class="list--item header">Pokédex</p>
+                <li class="list--item header">Pokédex</p>
             </ul>
         </div>
+        <form id='register-form'>
+
+            <div class='input-wrapper'>
+                <label for='email'>E-mail</label>
+                <input id='email'>
+            </div>
+
+            <div class='input-wrapper'>
+                <label for='password'>Password</label>
+                <input id='password' type='password'>
+            </div>
+
+            <button>Register</button>
+        </form>
+
         <script src="js/promise-polyfill.js"></script>
         <script src="js/fetch-polyfill.js"></script>
         <script src="js/scripts.js"></script>
