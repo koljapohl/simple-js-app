@@ -28,12 +28,12 @@ li{
     width: 100%;
     text-align: left;
 }
-li.header{
+.li-header{
     font-size: 1.17em;
     font-weight: 700;
 }
-.pokemon-list .header{
-    margin: 5px 0;
+.li-header p {
+    margin: 8px 0px;
 }
 .pokebutton{
     border: 1px solid #fff;
@@ -78,8 +78,11 @@ label {
 #modal-container {
     display: none;
 }
-
 #show-modal {
+    float: right;
+    margin: 15px;
+}
+#show-dialog {
     float: right;
     margin: 15px;
 }
@@ -125,4 +128,7 @@ label {
 }
 .modal p {
     margin-bottom: 0;
+}
+.modal button {
+    margin: 10px 10px 0 0;
 }

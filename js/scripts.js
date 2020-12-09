@@ -158,8 +158,8 @@ let pokemonRepository = (function () {
     })();
 
     //Modal event
+    let modalContainer = document.querySelector('#modal-container');
     function showModal(title, text) {
-        let modalContainer = document.querySelector('#modal-container');
         //clear all existing content
         modalContainer.innerHTML = '';
         let modal = document.createElement('div');
@@ -167,7 +167,7 @@ let pokemonRepository = (function () {
         //Add modal content
         let closeButtonElement = document.createElement('button');
         closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'Close';
+        closeButtonElement.innerText = 'X';
         closeButtonElement.addEventListener('click', hideModal);
 
         let titleElement = document.createElement('h1');
@@ -184,24 +184,65 @@ let pokemonRepository = (function () {
         modalContainer.classList.add('is-visible');
     }
 
-    document.querySelector('#show-modal').addEventListener('click', (e) => {
-        showModal('Modal title', 'This ist the modal content!');
-    });
+    let dialogPromiseReject;
 
     function hideModal() {
-        let modalContainer = document.querySelector('#modal-container');
         modalContainer.classList.remove('is-visible');
+
+        if(dialogPromiseReject) {
+            dialogPromiseReject();
+            dialogPromiseReject = null;
+        }
     }
 
+    function showDialog(title, text) {
+        showModal(title, text);
+
+        let modal = document.querySelector('.modal');
+        let confirmButton = document.createElement('button');
+        confirmButton.classList.add('modal-confirm');
+        confirmButton.innerText = 'Confirm';
+
+        let cancelButton = document.createElement('button');
+        cancelButton.classList.add('modal-cancel');
+        cancelButton.innerText = 'Cancel';
+
+        modal.appendChild(confirmButton);
+        modal.appendChild(cancelButton);
+
+        confirmButton.focus();
+
+        //Return a promise that resolves when confirmed, else rejects
+        return new Promise((resolve, reject) => {
+            cancelButton.addEventListener('click', hideModal);
+            confirmButton.addEventListener('click', () => {
+                dialogPromiseReject = null;
+                hideModal();
+                resolve();
+            });
+            dialogPromiseReject = reject;
+        });
+    }
+
+    //EventListeners
+    document.querySelector('#show-modal').addEventListener('click', (e) => {
+        showModal('Modal title', 'This is the modal content!');
+    });
+    document.querySelector('#show-dialog').addEventListener('click', () => {
+        showDialog('Confirm action', 'Are you sure you want to do this?').then(function() {
+            alert('confirmed!');
+        }, () => {
+            alert('not confirmed');
+        });
+    });
     window.addEventListener('keydown', (e) => {
-        let modalContainer = document.querySelector('#modal-container');
         if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
             hideModal();
         }
     });
-    document.querySelector('#modal-container').addEventListener('click', (e) => {
+    modalContainer.addEventListener('click', (e) => {
         let target = e.target;
-        if (target === document.querySelector('#modal-container')) {
+        if (target === modalContainer) {
             hideModal();
         }
     });
