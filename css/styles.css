@@ -18,10 +18,12 @@ li{
     padding: 2px;
 }
 .container{
-    display: grid;
+    display: block;
+    width: 50%;
     min-width: 150px;
-    font-size: 20px;
-    margin: 20px;
+    max-width: 600px;
+    font-size: 18px;
+    margin: auto;
 }
 .list--item{
     padding: 10px;
@@ -42,23 +44,21 @@ li{
     cursor: pointer;
 }
 
-@media all and (min-width: 450px){
-    .container{
-        grid-template-columns: 2fr 1fr;
+@media all and (min-width: 350px) {
+    .container {
+        font-size: 20px;
     }
 }
-@media all and (min-width: 800px){
-    .container{
-        grid-template-columns: 1fr 1fr;
+@media all and (min-width: 650px) {
+    .container {
+        font-size: 22px;
     }
 }
-@media all and (min-width: 1200px){
-    .container{
-        grid-template-columns: 1fr 2fr;
+@media all and (min-width: 1000px) {
+    .container {
+        font-size: 24px;
     }
 }
-
-
 /*form validation UI pattern styling*/
 .input-wrapper {
   margin-bottom: 10px;
@@ -77,10 +77,6 @@ label {
 /*Modal styling*/
 #modal-container {
     display: none;
-}
-#show-modal {
-    float: right;
-    margin: 15px;
 }
 #show-dialog {
     float: right;
@@ -110,7 +106,7 @@ label {
     background: #fff;
     padding: 15px;
     width: 100%;
-    max-width: 700px;
+    max-width: 400px;
     text-align: left;
 }
 
@@ -119,7 +115,7 @@ label {
     -webkit-appearance: none;
     border: 0;
     background: none;
-    color: #777;
+    color: var(--primary-color);
     text-decoration: underline;
 }
 
@@ -128,7 +124,14 @@ label {
 }
 .modal p {
     margin-bottom: 0;
+    font-weight: 700;
 }
 .modal button {
     margin: 10px 10px 0 0;
+}
+.modal img {
+    display: block;
+    margin: auto;
+    width: 70%;
+    height: auto;
 }
