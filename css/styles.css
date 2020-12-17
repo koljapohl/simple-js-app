@@ -7,15 +7,19 @@
 *{
     box-sizing: border-box;
 }
+body{
+    background: var(--cyan);
+}
 ul{
-    background-color: lightgray;
-    border: 1px solid black;
     padding: 5px;
 }
 li{
     list-style: none;
     margin: 5px;
     padding: 2px;
+}
+nav img {
+    width: 40px;
 }
 .container{
     display: block;
@@ -37,8 +41,9 @@ li{
 .li-header p {
     margin: 8px 0px;
 }
-.pokebutton{
+.pokebutton, .btn-primary{
     border: 1px solid #fff;
+    text-transform: capitalize;
     background-color: var(--primary-color);
     color: #fff;
     cursor: pointer;
@@ -75,14 +80,11 @@ label {
 }
 
 /*Modal styling*/
-#modal-container {
-    display: none;
-}
 #show-dialog {
     float: right;
     margin: 15px;
 }
-#modal-container.is-visible {
+/*#modal-container.is-visible {
     position: fixed;
     padding: 20px;
     box-sizing: border-box;
@@ -97,7 +99,7 @@ label {
     /*center the modal*/
     display: grid;
     text-align: center;
-}
+}*/
 
 .modal {
     margin: auto;
@@ -119,6 +121,15 @@ label {
     text-decoration: underline;
 }
 
+.modal-content {
+    background: var(--cyan);
+}
+.modal-header {
+    background: var(--danger);
+}
+.modal-title h1 {
+    text-transform: capitalize;
+}
 .modal h1 {
     margin-top: 0;
 }
@@ -132,6 +143,6 @@ label {
 .modal img {
     display: block;
     margin: auto;
-    width: 70%;
+    width: 35%;
     height: auto;
 }

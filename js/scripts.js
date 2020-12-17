@@ -7,11 +7,13 @@ let pokemonRepository = (function () {
         let listItem = document.createElement('li');
         let button = document.createElement('button');
         button.innerText = pokemon.name;
-        button.classList.add('pokebutton','list--item');
+        button.classList.add('btn', 'btn-primary', 'btn-block','pokebutton','list--item','list-group-item');
+        button.setAttribute('data-target', '#modal-container');
+        button.setAttribute('data-toggle', "modal");
         listItem.appendChild(button);
         list.appendChild(listItem);
         //calls function for applying event listener to button
-        addListener(button, pokemon);
+        addListener(button,pokemon);
     }
     //adds a listener to the button that lastly was created by 'addListItem' that triggers the showDetails-function
     function addListener(button, pokemon) {
@@ -21,7 +23,7 @@ let pokemonRepository = (function () {
     }
     function showDetails(pokemon) {
         loadDetails(pokemon).then(function () {
-            showModal(pokemon.name, 'Height: '+ pokemon.height, pokemon.imageUrl);
+            showModal(pokemon);
         });
     }
 
@@ -78,9 +80,14 @@ let pokemonRepository = (function () {
         return fetch(url).then(function(response) {
             return response.json();
         }).then(function (details) {
-            item.imageUrl = details.sprites.front_default;
+            item.imageUrlFront = details.sprites.front_default;
+            item.imageUrlBack = details.sprites.back_default;
             item.height = details.height;
-            item.types = details.types;
+            item.weight = details.weight;
+            item.types = [];
+            for(let n = 0; n<details.types.length; n++) {
+                item.types.push(' '+ details.types[n].type.name);
+            }
         }).catch(function (e) {
             console.error(e);
         });
@@ -88,35 +95,30 @@ let pokemonRepository = (function () {
 
     //Modal event
     let modalContainer = document.querySelector('#modal-container');
-    function showModal(title, text, imgUrl) {
-        //clear all existing content
-        modalContainer.innerHTML = '';
-        let modal = document.createElement('div');
-        modal.classList.add('modal');
+    function showModal(item) {
+        let modalBody = $('.modal-body');
+        let modalTitle = $('.modal-title');
+        let modalHeader = $('.modal-header');
+        //clear existing content of the modal
+        modalTitle.empty();
+        modalBody.empty();
+
         //Add modal content
-        let closeButtonElement = document.createElement('button');
-        closeButtonElement.classList.add('modal-close');
-        closeButtonElement.innerText = 'X';
-        closeButtonElement.addEventListener('click', hideModal);
+        let nameElement = $('<h1>' + item.name + '</h1>');
+        let imageElementFront = $('<img class="modal-img">');
+        imageElementFront.attr('src', item.imageUrlFront);
+        let imageElementBack = $('<img class="modal-img">');
+        imageElementBack.attr('src', item.imageUrlBack);
+        let heightElement = $('<p>Height: ' + item.height + '</p>');
+        let weightElement = $('<p>Weight: ' + item.weight + '</p>');
+        let typesElement = $('<p>Types: ' + item.types + '</p>');
 
-        let titleElement = document.createElement('h1');
-        titleElement.innerText = title;
-
-        let contentElement = document.createElement('p');
-        contentElement.innerText = text;
-
-        let imgElement = document.createElement('img');
-        imgElement.src = imgUrl;
-
-        modal.appendChild(closeButtonElement);
-        modal.appendChild(titleElement);
-        modal.appendChild(contentElement);
-        if(imgUrl) {
-            modal.appendChild(imgElement);
-        }
-        modalContainer.appendChild(modal);
-
-        modalContainer.classList.add('is-visible');
+        modalTitle.append(nameElement);
+        modalBody.append(imageElementFront);
+        modalBody.append(imageElementBack);
+        modalBody.append(heightElement);
+        modalBody.append(weightElement);
+        modalBody.append(typesElement);
     }
 
     let dialogPromiseReject;
@@ -159,95 +161,76 @@ let pokemonRepository = (function () {
         });
     }
 
-    //EventListeners
-    document.querySelector('#show-dialog').addEventListener('click', () => {
-        showDialog('Confirm action', 'Are you sure you want to do this?').then(function() {
-            alert('confirmed!');
-        }, () => {
-            alert('not confirmed');
-        });
-    });
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-            hideModal();
-        }
-    });
-    modalContainer.addEventListener('click', (e) => {
-        let target = e.target;
-        if (target === modalContainer) {
-            hideModal();
-        }
-    });
-    //adding form validation UI patterns
-    (function() {
-        let form = document.querySelector('#register-form');
-        let emailInput = document.querySelector('#email');
-        let passwordInput = document.querySelector('#password');
-
-        function validateEmail() {
-            let value = emailInput.value;
-
-            if (!value) {
-                showErrorMessage(emailInput, 'Email is a required field.');
-                return false;
-            }
-            if (value.indexOf('@') === -1) {
-                showErrorMessage(emailInput, 'You must enter a valid email address.');
-                return false;
-            }
-            showErrorMessage(emailInput, null);
-            return true;
-        }
-
-        function validatePassword() {
-            let value = passwordInput.value;
-
-            if (!value) {
-                showErrorMessage(passwordInput, 'Passord is a required field.');
-                return false;
-            }
-            if(value.length < 8) {
-                showErrorMessage(passwordInput, 'The password needs to be at least 8 characters long.');
-                return false;
-            }
-            showErrorMessage(passwordInput, null);
-            return true;
-        }
-
-        function validateForm() {
-            let isValidEmail = validateEmail();
-            let isValidPassword = validatePassword();
-            return isValidEmail && isValidPassword;
-        }
-
-        function showErrorMessage(input, message) {
-            let container = input.parentElement; //that's the .input-wrapper
-
-            //Remove possible existing error
-            let error = container.querySelector('.error-message');
-            if (error) {
-                container.removeChild(error);
-            }
-
-            //Add error message if the message itself is not empty
-            if (message) {
-                let error = document.createElement('div');
-                error.classList.add('error-message');
-                error.innerText = message;
-                container.appendChild(error);
-            }
-        }
-
-        emailInput.addEventListener('input', validateEmail);
-        passwordInput.addEventListener('input', validatePassword);
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); //Do not submit to the server
-
-            if(validateForm()) {
-                alert('Success!');
-            }
-        })
-    })();
+    // //adding form validation UI patterns
+    // (function() {
+    //     let form = document.querySelector('#register-form');
+    //     let emailInput = document.querySelector('#email');
+    //     let passwordInput = document.querySelector('#password');
+    //
+    //     function validateEmail() {
+    //         let value = emailInput.value;
+    //
+    //         if (!value) {
+    //             showErrorMessage(emailInput, 'Email is a required field.');
+    //             return false;
+    //         }
+    //         if (value.indexOf('@') === -1) {
+    //             showErrorMessage(emailInput, 'You must enter a valid email address.');
+    //             return false;
+    //         }
+    //         showErrorMessage(emailInput, null);
+    //         return true;
+    //     }
+    //
+    //     function validatePassword() {
+    //         let value = passwordInput.value;
+    //
+    //         if (!value) {
+    //             showErrorMessage(passwordInput, 'Passord is a required field.');
+    //             return false;
+    //         }
+    //         if(value.length < 8) {
+    //             showErrorMessage(passwordInput, 'The password needs to be at least 8 characters long.');
+    //             return false;
+    //         }
+    //         showErrorMessage(passwordInput, null);
+    //         return true;
+    //     }
+    //
+    //     function validateForm() {
+    //         let isValidEmail = validateEmail();
+    //         let isValidPassword = validatePassword();
+    //         return isValidEmail && isValidPassword;
+    //     }
+    //
+    //     function showErrorMessage(input, message) {
+    //         let container = input.parentElement; //that's the .input-wrapper
+    //
+    //         //Remove possible existing error
+    //         let error = container.querySelector('.error-message');
+    //         if (error) {
+    //             container.removeChild(error);
+    //         }
+    //
+    //         //Add error message if the message itself is not empty
+    //         if (message) {
+    //             let error = document.createElement('div');
+    //             error.classList.add('error-message');
+    //             error.innerText = message;
+    //             container.appendChild(error);
+    //         }
+    //     }
+    //
+    //     emailInput.addEventListener('input', validateEmail);
+    //     passwordInput.addEventListener('input', validatePassword);
+    //     form.addEventListener('submit', (e) => {
+    //         e.preventDefault(); //Do not submit to the server
+    //
+    //         if(validateForm()) {
+    //             alert('Success!');
+    //         }
+    //     })
+    // })();
 
     return {
         getAll: getAll,
