@@ -83,52 +83,10 @@ nav img {
         font-size: 24px;
     }
 }
-/*form validation UI pattern styling*/
-.input-wrapper {
-  margin-bottom: 10px;
-}
-
-label {
-  display: inline-block;
-  min-width: 75px;
-}
-
-.error-message {
-  color: red;
-  font-size: 0.8em;
-}
-
 /*Modal styling*/
 #show-dialog {
     float: right;
     margin: 15px;
-}
-/* #modal-container.is-visible {
-    position: fixed;
-    padding: 20px;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
-    /*allow scrolling if the screen is not high enough
-    overflow: auto;
-    /*center the modal
-    display: grid;
-    text-align: center;
-} */
-
-.modal {
-    margin: auto;
-    display: inline-block;
-    box-sizing: border-box;
-    background: #fff;
-    padding: 15px;
-    width: 100%;
-    max-width: 400px;
-    text-align: left;
 }
 
 .modal-close {
@@ -160,4 +118,48 @@ label {
     margin: auto;
     width: 35%;
     height: auto;
+}
+
+.contact {
+    margin-top: 3.8rem;
+    margin-bottom: 1rem;
+}
+.contact p {
+    margin: 0;
+    font-size: 1rem;
+}
+.contact a {
+    color: var(--primary-color);
+}
+#contact-form {
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+.form-group:last-of-type {
+    margin-bottom: 0rem;
+}
+.required-input {
+    font-size: 0.8rem !important;
+    font-style: italic;
+    margin: 0.5rem 0 !important;
+}
+footer {
+    margin: 1rem 0;
+    border-top: 2px solid var(--danger);
+}
+.footer-content {
+    margin-top: 1rem;
+}
+/*form validation UI pattern styling*/
+.input-wrapper {
+  margin-bottom: 10px;
+}
+label {
+  display: inline-block;
+  min-width: 75px;
+}
+.error-message {
+  color: var(--danger);
+  font-size: 0.8em;
+  font-weight: bolder;
 }

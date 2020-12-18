@@ -119,18 +119,7 @@ let pokemonRepository = (function () {
         modalBody.append(heightElement);
         modalBody.append(weightElement);
         modalBody.append(typesElement);
-    }
-
-    let dialogPromiseReject;
-
-    function hideModal() {
-        modalContainer.classList.remove('is-visible');
-
-        if(dialogPromiseReject) {
-            dialogPromiseReject();
-            dialogPromiseReject = null;
         }
-    }
 
     function showDialog(title, text) {
         showModal(title, text);
@@ -161,76 +150,75 @@ let pokemonRepository = (function () {
         });
     }
 
-    // //adding form validation UI patterns
-    // (function() {
-    //     let form = document.querySelector('#register-form');
-    //     let emailInput = document.querySelector('#email');
-    //     let passwordInput = document.querySelector('#password');
-    //
-    //     function validateEmail() {
-    //         let value = emailInput.value;
-    //
-    //         if (!value) {
-    //             showErrorMessage(emailInput, 'Email is a required field.');
-    //             return false;
-    //         }
-    //         if (value.indexOf('@') === -1) {
-    //             showErrorMessage(emailInput, 'You must enter a valid email address.');
-    //             return false;
-    //         }
-    //         showErrorMessage(emailInput, null);
-    //         return true;
-    //     }
-    //
-    //     function validatePassword() {
-    //         let value = passwordInput.value;
-    //
-    //         if (!value) {
-    //             showErrorMessage(passwordInput, 'Passord is a required field.');
-    //             return false;
-    //         }
-    //         if(value.length < 8) {
-    //             showErrorMessage(passwordInput, 'The password needs to be at least 8 characters long.');
-    //             return false;
-    //         }
-    //         showErrorMessage(passwordInput, null);
-    //         return true;
-    //     }
-    //
-    //     function validateForm() {
-    //         let isValidEmail = validateEmail();
-    //         let isValidPassword = validatePassword();
-    //         return isValidEmail && isValidPassword;
-    //     }
-    //
-    //     function showErrorMessage(input, message) {
-    //         let container = input.parentElement; //that's the .input-wrapper
-    //
-    //         //Remove possible existing error
-    //         let error = container.querySelector('.error-message');
-    //         if (error) {
-    //             container.removeChild(error);
-    //         }
-    //
-    //         //Add error message if the message itself is not empty
-    //         if (message) {
-    //             let error = document.createElement('div');
-    //             error.classList.add('error-message');
-    //             error.innerText = message;
-    //             container.appendChild(error);
-    //         }
-    //     }
-    //
-    //     emailInput.addEventListener('input', validateEmail);
-    //     passwordInput.addEventListener('input', validatePassword);
-    //     form.addEventListener('submit', (e) => {
-    //         e.preventDefault(); //Do not submit to the server
-    //
-    //         if(validateForm()) {
-    //             alert('Success!');
-    //         }
-    //     })
-    // })();
+    if($('.nav-item a').attr('class').indexOf('active') < 0) {
+        //adding form validation UI patterns (for contact page only)
+        (function() {
+            let form = document.querySelector('#contact-form');
+            let emailInput = document.querySelector('#mail');
+            let msgInput = document.querySelector('#msgbox');
+
+            function validateEmail() {
+                let value = emailInput.value;
+
+                if (!value) {
+                    showErrorMessage(emailInput, 'E-mail is a required field.');
+                    return false;
+                }
+                if (value.indexOf('@') === -1) {
+                    showErrorMessage(emailInput, 'You must enter a valid email address that contains an "@"-sign.');
+                    return false;
+                }
+                showErrorMessage(emailInput, null);
+                return true;
+            }
+
+            function validateMsg() {
+                let value = msgInput.value;
+
+                if(!value) {
+                    showErrorMessage(msgInput, 'You must enter a message.');
+                    return false;
+                }
+                showErrorMessage(msgInput, null);
+                return true;
+            }
+
+            function validateForm() {
+                let isValidEmail = validateEmail();
+                let isValidMsg = validateMsg();
+
+                return isValidEmail && isValidMsg;
+            }
+
+            function showErrorMessage(input, message) {
+                let container = input.parentElement; //that's the .input-wrapper
+
+                //Remove possible existing error
+                let error = container.querySelector('.error-message');
+                if (error) {
+                    container.removeChild(error);
+                }
+
+                //Add error message if the message itself is not empty
+                if (message) {
+                    let error = document.createElement('div');
+                    error.classList.add('error-message');
+                    error.innerText = message;
+                    container.appendChild(error);
+                }
+            }
+
+            emailInput.addEventListener('input', validateEmail);
+            msgInput.addEventListener('input', validateMsg);
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); //Do not submit to the server
+
+                if(validateForm()) {
+                    alert('Success!');
+                }
+            })
+        })();
+    }
 
     return {
         getAll: getAll,
@@ -241,12 +229,12 @@ let pokemonRepository = (function () {
     };
 })();
 
-// let testObject = {name: 'poki', height: 8, types: ['air', 'earth']};
-// pokemonRepository.addv(testObject);
-
-pokemonRepository.loadList().then(function() {
-    //Now the data is loaded!
-    pokemonRepository.getAll().forEach(function(pokemon){
-        pokemonRepository.addListItem(pokemon);
+//only execute loading repository when index is the active page
+if ($('.nav-item a').attr('class').indexOf('active') > -1) {
+    pokemonRepository.loadList().then(function() {
+        //Now the data is loaded!
+        pokemonRepository.getAll().forEach(function(pokemon){
+            pokemonRepository.addListItem(pokemon);
+        });
     });
-});
+}
