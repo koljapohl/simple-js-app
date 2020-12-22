@@ -1,3 +1,4 @@
+/* global $, sort */
 let pokemonRepository = (function () {
     let pokemonList = [];
     let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
@@ -9,7 +10,7 @@ let pokemonRepository = (function () {
         button.innerText = pokemon.name;
         button.classList.add('btn', 'btn-primary', 'btn-block','pokebutton','list--item','list-group-item');
         button.setAttribute('data-target', '#modal-container');
-        button.setAttribute('data-toggle', "modal");
+        button.setAttribute('data-toggle', 'modal');
         listItem.appendChild(button);
         list.appendChild(listItem);
         //calls function for applying event listener to button
@@ -17,7 +18,7 @@ let pokemonRepository = (function () {
     }
     //adds a listener to the button that lastly was created by 'addListItem' that triggers the showDetails-function
     function addListener(button, pokemon) {
-        button.addEventListener('click', function (event) {
+        button.addEventListener('click', function () {
             showDetails(pokemon);
         });
     }
@@ -94,11 +95,9 @@ let pokemonRepository = (function () {
     }
 
     //Modal event
-    let modalContainer = document.querySelector('#modal-container');
     function showModal(item) {
         let modalBody = $('.modal-body');
         let modalTitle = $('.modal-title');
-        let modalHeader = $('.modal-header');
         //clear existing content of the modal
         modalTitle.empty();
         modalBody.empty();
@@ -120,35 +119,6 @@ let pokemonRepository = (function () {
         modalBody.append(weightElement);
         modalBody.append(typesElement);
         }
-
-    function showDialog(title, text) {
-        showModal(title, text);
-
-        let modal = document.querySelector('.modal');
-        let confirmButton = document.createElement('button');
-        confirmButton.classList.add('modal-confirm');
-        confirmButton.innerText = 'Confirm';
-
-        let cancelButton = document.createElement('button');
-        cancelButton.classList.add('modal-cancel');
-        cancelButton.innerText = 'Cancel';
-
-        modal.appendChild(confirmButton);
-        modal.appendChild(cancelButton);
-
-        confirmButton.focus();
-
-        //Return a promise that resolves when confirmed, else rejects
-        return new Promise((resolve, reject) => {
-            cancelButton.addEventListener('click', hideModal);
-            confirmButton.addEventListener('click', () => {
-                dialogPromiseReject = null;
-                hideModal();
-                resolve();
-            });
-            dialogPromiseReject = reject;
-        });
-    }
 
     if($('.nav-item a').attr('class').indexOf('active') < 0) {
         //adding form validation UI patterns (for contact page only)
