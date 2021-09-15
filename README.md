@@ -1,6 +1,38 @@
 # Pokédex-App (JavaScript)
 
-This web application loads data from an external source (API) and displays its details on demand within a modal. The details cover the height, weight and types of a given pokemon.
+## Project description
 
-The application is based on HTML, CSS, JavaScript and jQuery.
-Bootstrap was used for framework purposes.
+This project's objective was to build a small web application with HTML, CSS, and JavaScript that loads data from an external API and enables the viewing of data points in detail.
+
+## Key features
+
++ Load data from an external source (API)
++ View a list of items
++ On user action (e.g., by clicking on a list item), view details for that item
+
+## Dependencies
+
++ Bootstrap
++ jQuery
++ Ajax
+
+## Technology / Tools used
+
++ HTML
++ CSS
++ JavaScript
++ jQuery
++ GitHub Pages
++ ESLint
+
+## getting started
+
+Requirements:
+
++ Browser
++ Text Editor / IDE
+
+## Setup
+
++ clone repo to your hard drive
++ open .html-file in a text editor
