@@ -36,3 +36,7 @@ Requirements:
 
 + clone repo to your hard drive
 + open .html-file in a text editor
+
+## Hosting
+
+see live app here[https://koljapohl.github.io/simple-js-app/]
